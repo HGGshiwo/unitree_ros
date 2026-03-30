@@ -48,7 +48,7 @@
           Only change model and gazebo from XYZ to XY-Z coordinates
       -->
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-      <gazeboXYZToNED>0 0 0 3.141593 0 1.570796</gazeboXYZToNED>
+      <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <imuName>/::base::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
@@ -97,7 +97,7 @@
         <rpyOffset>0 0 0</rpyOffset>
         <frameName>imu_link</frameName>
       </plugin>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 0 3.1415926 0 0</pose>
     </sensor>
   </gazebo>
   <!-- Depth camera -->
