@@ -1,0 +1,34 @@
+<launch>
+  <!-- Force use_sim_time to true for Gazebo simulation -->
+  <param name="/use_sim_time" value="true" />
+
+  <!-- Load URDF to parameter server -->
+  <param name="robot_description" textfile="$(find d1_description)/urdf/d1_description.urdf" />
+
+  <!-- Start Gazebo empty world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+  <!-- Spawn the robot model in Gazebo -->
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model d1_description -param robot_description -z 0.1" output="screen" />
+
+  <!-- Load controller configuration -->
+  <rosparam file="$(find d1_description)/config/d1_control.yaml" command="load" />
+
+  <!-- Spawn the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/d1" args="joint_state_controller arm_controller" />
+
+  <!-- Start robot_state_publisher to translate joint states to TF, subscribing to /d1/joint_states -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <remap from="joint_states" to="/d1/joint_states" />
+  </node>
+
+  <!-- Start the custom D1 simulator controller node -->
+  <node name="d1_sim_control_node" pkg="d1_description" type="d1_sim_control_node.py" output="screen" />
+
+  <!-- Start RViz with the custom pre-loaded config -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find d1_description)/launch/d1.rviz" output="screen">
+    <env name="LIBGL_ALWAYS_SOFTWARE" value="1" />
+  </node>
+</launch>

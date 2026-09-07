@@ -1,0 +1,20 @@
+d1:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # Joint Group Position Controller -----------------------------
+  arm_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+      - Joint1
+      - Joint2
+      - Joint3
+      - Joint4
+      - Joint5
+      - Joint6
+      - Joint7_1
+      - Joint7_2
+
+
